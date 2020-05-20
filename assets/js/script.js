@@ -1,9 +1,8 @@
-
 var taskIdCounter = 0;
-
 var buttonEl = document.querySelector("#task-form");
-
 var tasksToDoEl = document.querySelector("#tasks-to-do");
+var formEl = document.querySelector("#task-form");
+var pageContentEl = document.querySelector("#page-content");
 
 var taskFormHandler = function(event) {
     event.preventDefault();
@@ -15,7 +14,7 @@ var taskFormHandler = function(event) {
         alert("You need to fill out the task form!");
         return false;
     }
-    // *******Why is this not working??? <formEl.reset()>
+    formEl.reset()
     // I tried this - taskNameInput.reset();
     // and this - taskTypeInput.reset();
     
@@ -94,4 +93,20 @@ var createTaskActions = function(taskId) {
     return actionContainerEl;
 };
 
+var deleteTask = function(taskId) {
+    var taskSelected = document.querySelector(".task-item[data-task-id='" + taskId + "']");
+    taskSelected.remove();
+
+};
+
 buttonEl.addEventListener("submit", taskFormHandler);
+
+var taskButtonHandler = function(event) {
+
+    if (event.target.matches(".delete-btn")) {
+        // get the element's task id
+        var taskId = event.target.getAttribute("data-task-id");
+        deleteTask(taskId);
+    }
+};
+pageContentEl.addEventListener("click", taskButtonHandler);
